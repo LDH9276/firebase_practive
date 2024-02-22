@@ -64,9 +64,11 @@ function Readpost() {
                     <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}></div>
                 </div>
             ))}
-            <button onClick={moveToModify}>수정</button>
-            <button onClick={moveToDelete}>삭제</button>
-            <button onClick={moveToList}>목록으로</button>
+            <div className="flex justify-between">
+                <button onClick={moveToModify}>수정</button>
+                <button onClick={moveToDelete}>삭제</button>
+                <button onClick={moveToList}>목록으로</button>
+            </div>
         </div>
     );
 }
