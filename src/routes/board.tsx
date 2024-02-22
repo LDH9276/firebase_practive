@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
 export interface Post {
+    post_id: any;
     id: string;
     photo?: string;
     writer: string;
     title: string;
-    date: string; // Assuming date is a Firebase Timestamp
+    date: string;
 }
 
 function BoardList() {
@@ -22,13 +23,13 @@ function BoardList() {
         const docs = await getDocs(postQuery);
         const postData = docs.docs.map((doc) => {
             const { writer, title, date, post_id } = doc.data();
-            // Convert Firebase Timestamp to a string or other suitable format
-            const formattedDate = date.toDate().toLocaleString(); // Example conversion to a localized string
+            const formattedDate = date.toDate().toLocaleString();
             return {
-                writer,
-                title,
-                post_id,
+                writer: writer,
+                title: title,
+                post_id: post_id,
                 date: formattedDate,
+                id: doc.id,
             };
         });
         setPosts(postData);
@@ -45,11 +46,11 @@ function BoardList() {
     return (
         <div>
             {posts.map((post, index) => (
-                <Link to={`/read/${post.post_id}`} key={index}  className="flex justify-start">
-                    <p>{post.post_id}</p>
-                    <p>{post.title}</p>
-                    <p>{post.writer}</p>
-                    <p>{post.date}</p>
+                <Link to={`/read/${post.post_id}`} key={index}  className="flex justify-between items-center border-b border-gray-300 p-2">
+                    <p className="block w-8 text-center">{post.post_id}</p>
+                    <p className="w-1/2">{post.title}</p>
+                    <p className="w-24">{post.writer}</p>
+                    <p className="w-1/4">{post.date}</p>
                 </Link>
             ))}
 

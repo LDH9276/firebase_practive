@@ -53,10 +53,14 @@ function Readpost() {
         <div>
             {posts.map((post) => (
                 <div key={post.post_id}>
-                    <p>{post.post_id}</p>
-                    <p>{post.title}</p>
-                    <p>{post.writer}</p>
-                    <p>{post.date}</p>
+                    <div className="flex justify-start">
+                        <p>{post.post_id}</p>
+                        <p>{post.title}</p>
+                    </div>
+                    <div className="flex">
+                        <p>{post.writer}</p>
+                        <p>{post.date}</p>
+                    </div>
                     <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}></div>
                 </div>
             ))}
