@@ -60,7 +60,11 @@ function Write() {
         }
 
         else {
-            const lastPostId = await getDocs(query(collection(db, "post_list"), orderBy("post_id", "desc"), limit(1))).then(snapshot => snapshot.docs[0].data().post_id);
+            // 가장 먼저 게시물의 최신글 번호를 가져온다.
+            const lastPostId = await getDocs(query(collection(db, "post_list"), orderBy("post_id", "desc"), limit(1)))
+            .then(snapshot => snapshot.docs[0].data().post_id);
+
+            // 최신 게시물 번호의 +1을 하여 새로운 게시물 번호를 만든다.
             let postId = lastPostId;
             postId++;
 
