@@ -21,7 +21,6 @@ function Readpost() {
             return { writer, title, post_id, content, date: formattedDate };
         });
 
-        console.log(postData);
         setPosts(postData);
     };
 
