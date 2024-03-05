@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { auth } from "../firebase.ts";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
 
@@ -9,6 +10,7 @@ function SignUp() {
     const [password, setPassword] = useState("");
     const [newAccount, setNewAccount] = useState(true);
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(password.length < 8) {
@@ -33,6 +35,7 @@ function SignUp() {
         } finally {
             setEmail("");
             setPassword("");
+            navigate("/");
         }
     }
 

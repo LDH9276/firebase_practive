@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -6,6 +6,7 @@ const formats = ["font", "header", "bold", "italic", "underline", "strike", "blo
 
 function QuillEditor({ setContent: setContentProp, contents }: { setContent: React.Dispatch<React.SetStateAction<string>>, contents: string }) {
     const [content, setContent] = useState("");
+    const quillRef = React.useRef<ReactQuill>(null); // Quill instance를 저장하기 위한 ref
 
     const handleChange = (content: string) => {
         setContent(content);
@@ -18,7 +19,7 @@ function QuillEditor({ setContent: setContentProp, contents }: { setContent: Rea
                 container: [
                     [{ size: ["small", false, "large", "huge"] }],
                     [{ align: [] }],
-                    ["bold", "italic", "underline", "strike"],
+                    ["bold", "italic", "underline", "strike", "image"],
                     [{ list: "ordered" }, { list: "bullet" }],
                     [
                         {
@@ -27,11 +28,40 @@ function QuillEditor({ setContent: setContentProp, contents }: { setContent: Rea
                         { background: [] },
                     ],
                 ],
+                handlers: {
+                    image: () => {
+                        const quill = quillRef.current!.getEditor();
+                        const range = quill.getSelection();
+                        const input = document.createElement('input');
+
+                        input.setAttribute('type', 'file');
+                        input.setAttribute('accept', 'image/*');
+                        input.click();
+
+                        input.onchange = async () => {
+                            const file = input.files![0];
+                            const formData = new FormData();
+
+                            formData.append('image', file);
+
+                            // 이미지를 서버에 업로드하고 URL을 받아옵니다.
+                            const response = await fetch('/upload/image', {
+                                method: 'POST',
+                                body: formData,
+                            });
+                            const data = await response.json();
+                            const url = data.url;
+
+                            // 서버에서 받아온 URL을 에디터에 삽입합니다.
+                            quill.insertEmbed(range!.index, 'image', url);
+                        };
+                    },
+                },
             },
         };
     }, []);
 
-    return <ReactQuill theme="snow" modules={modules} formats={formats} onChange={handleChange} value={contents}/>;
+    return <ReactQuill ref={quillRef} theme="snow" modules={modules} formats={formats} onChange={handleChange} value={contents}/>;
 }
 
 export default QuillEditor;
