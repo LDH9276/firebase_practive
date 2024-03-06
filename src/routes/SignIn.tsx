@@ -23,14 +23,17 @@ function SignIn() {
     }
     
     return (
-        <div>
-            <input type="text" name="email" id="ID" onChange={(e) => setEmail(e.target.value)}/>
-            <input type="password" name="password" id="PW" onChange={(e) => setPassword(e.target.value)}/>
-            <button type="submit" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => onSubmit(e as unknown as React.FormEvent<HTMLFormElement>)}>로그인</button>
-            <p>
-                회원이 아니십니까?
-                <Link to="/signup">회원가입</Link>
-            </p>
+
+        <div className="w-[800px] flex justify-center">
+            <div className="flex flex-col w-[450px]">
+                <input type="text" name="email" id="ID" onChange={(e) => setEmail(e.target.value)} className="w-full border-0 border-t border-b border-l border-r border-gray-400 mb-4"/>
+                <input type="password" name="password" id="PW" onChange={(e) => setPassword(e.target.value)} className="w-full border-0 border-t border-b border-l border-r border-gray-400 mb-6"/>
+                <button type="submit" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => onSubmit(e as unknown as React.FormEvent<HTMLFormElement>)} className="bg-emerald-600 text-white" >로그인</button>
+                <p className="flex flex-col text-center">
+                    <span>회원이 아니십니까?</span>
+                    <Link to="/signup">회원가입</Link>
+                </p>
+            </div>
         </div>
     );
 }

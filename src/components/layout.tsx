@@ -17,8 +17,9 @@ function Layout() {
     };
 
     return (
-        <div className="w-[800px]">
-            <div className="flex w-full justify-between rounded-xl shadow-md h-7 bg-white p-8 items-center mb-6 mt-5">
+        <div className="w-[800px] ">
+
+            <div className="flex w-full justify-between rounded-2xl shadow-md text-white p-8 items-center mb-6 mt-5 h-7 bg-black">
                 <div className="flex w-1/2 justify-around">
                     <h1 onClick={moveTomain}>메인 페이지</h1>
                     <p>{user.name}</p>
